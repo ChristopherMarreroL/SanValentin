@@ -1,0 +1,11 @@
+---
+import Base from "../layouts/Base.astro";
+import Letter from "../components/Letter.jsx";
+import "../styles/tailwind.css";
+---
+
+<Base title="Carta 💌">
+  <main class="min-h-screen w-full grid place-items-center p-4 sm:p-6">
+    <Letter client:load />
+  </main>
+</Base>

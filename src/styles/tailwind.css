@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+html, body { height: 100%; }
+
+body{
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(255,224,236,.9), transparent 60%),
+    radial-gradient(1200px 800px at 80% 90%, rgba(255,224,236,.9), transparent 60%),
+    linear-gradient(135deg, rgba(255,239,246,1), #fff);
+}
+
+/* Animaciones + clases extra (hearts + confetti) */
+@keyframes floatUp {
+  from { transform: translateY(110vh) rotate(45deg); opacity: 0; }
+  10% { opacity: 1; }
+  to { transform: translateY(-20vh) rotate(45deg); opacity: 0; }
+}
+
+.heart {
+  position: absolute;
+  transform: rotate(45deg);
+  background: rgba(255,77,141,.25);
+  border-radius: 4px;
+  animation: floatUp linear infinite;
+  pointer-events: none;
+}
+
+.heart::before, .heart::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: 9999px;
+}
+
+.heart::before { left: -50%; top: 0; }
+.heart::after  { left: 0; top: -50%; }
+
+@keyframes confettiFall {
+  from { transform: translateY(-30px) rotate(0deg); opacity: .9; }
+  to   { transform: translateY(560px) rotate(520deg); opacity: 1; }
+}
+
+.confetti i {
+  position: absolute;
+  top: -30px;
+  animation: confettiFall linear forwards;
+  pointer-events: none;
+}
+
+.c-strip {
+  width: 10px;
+  height: 14px;
+  border-radius: 3px;
+  background: rgba(255,77,141,.85);
+}
+.c-strip:nth-child(3n) { background: rgba(255,119,168,.85); }
+.c-strip:nth-child(4n) { background: rgba(255,200,220,.95); }
+
+.c-emoji {
+  font-style: normal;
+  font-size: 20px;
+}
