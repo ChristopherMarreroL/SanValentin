@@ -59,9 +59,6 @@ export default function ValentineCard() {
     const fromUrl = getNameFromUrl();
     if (fromUrl) setName(fromUrl);
   }, []);
-
-  // Mostrar banner SIEMPRE al recargar (1s después).
-  // Si ya está sonando la música, no lo mostramos.
   useEffect(() => {
     const t = setTimeout(() => {
       if (!musicOn) setShowAudioPrompt(true);
@@ -122,17 +119,19 @@ export default function ValentineCard() {
     const rect = area.getBoundingClientRect();
     const b = btn.getBoundingClientRect();
 
-    const maxX = Math.max(0, rect.width - b.width - 10);
-    const maxY = Math.max(0, rect.height - b.height - 10);
+    const pad = 10;
+    const maxX = Math.max(0, rect.width - b.width - pad);
+    const maxY = Math.max(0, rect.height - b.height - pad);
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const x = pad + Math.random() * maxX;
+    const y = pad + Math.random() * maxY;
 
     btn.style.position = "absolute";
     btn.style.left = `${x}px`;
     btn.style.top = `${y}px`;
-    btn.style.transform = `rotate(${(Math.random() * 10 - 5).toFixed(2)}deg)`;
+    btn.style.zIndex = "30";
     btn.style.boxShadow = "0 14px 30px rgba(0,0,0,.12)";
+    btn.style.transform = `rotate(${(Math.random() * 10 - 5).toFixed(2)}deg)`;
   };
 
   const burstConfetti = () => {
@@ -192,7 +191,6 @@ export default function ValentineCard() {
   };
 
   const goLetter = () => {
-    // Guardar estado/tiempo para reanudar en /carta
     try {
       const a = audioRef.current;
       if (a && !a.paused) {
@@ -363,9 +361,10 @@ export default function ValentineCard() {
             <div className="mt-auto pt-3 border-t border-dashed border-pink-200/70">
               <p className="text-sm sm:text-base font-bold opacity-90">{s.hint}</p>
 
+              {/* ✅ área de movimiento */}
               <div
                 ref={buttonsAreaRef}
-                className="relative mt-3 min-h-[74px] flex flex-col sm:flex-row gap-3"
+                className="relative mt-3 min-h-[120px] flex flex-col sm:flex-row gap-3"
               >
                 {s.mode === "next" && (
                   <motion.button
@@ -393,7 +392,7 @@ export default function ValentineCard() {
 
                     <motion.button
                       ref={noBtnRef}
-                      className="w-full sm:w-auto rounded-2xl px-5 py-3 font-extrabold border border-pink-200/70 bg-white/70 text-[#7a1036]"
+                      className="w-auto rounded-2xl px-5 py-3 font-extrabold border border-pink-200/70 bg-white/70 text-[#7a1036]"
                       type="button"
                       onMouseEnter={evade}
                       onClick={evade}
@@ -445,7 +444,7 @@ export default function ValentineCard() {
       <div
         className={`fixed inset-0 z-50 ${
           showModal ? "grid" : "hidden"
-        } place-items-end sm:place-items-center bg-black/35 backdrop-blur-md p-3`}
+        } place-items-center bg-black/35 backdrop-blur-md p-3`}
         onClick={(e) => e.target === e.currentTarget && setShowModal(false)}
       >
         <motion.div
@@ -454,11 +453,7 @@ export default function ValentineCard() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
         >
-          <div
-            id="confetti"
-            className="confetti absolute inset-0 pointer-events-none"
-            aria-hidden="true"
-          />
+          <div id="confetti" className="confetti absolute inset-0 pointer-events-none" aria-hidden="true" />
 
           <div className="flex items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
             <h2 className="text-xl sm:text-3xl font-extrabold">¡Dijo que sí! 🎉</h2>
