@@ -256,12 +256,6 @@ export default function Letter() {
           placeholder="Pon su nombre aquí (opcional)"
           maxLength={24}
         />
-        <a
-          className="rounded-2xl border border-pink-200/60 bg-white/70 px-4 py-3 font-extrabold text-[#7a1036] text-center"
-          href={name.trim() ? `?n=${encodeURIComponent(name.trim())}` : `?`}
-        >
-          Usar en URL
-        </a>
       </div>
     </div>
   );

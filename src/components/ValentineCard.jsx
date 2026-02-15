@@ -59,6 +59,7 @@ export default function ValentineCard() {
     const fromUrl = getNameFromUrl();
     if (fromUrl) setName(fromUrl);
   }, []);
+
   useEffect(() => {
     const t = setTimeout(() => {
       if (!musicOn) setShowAudioPrompt(true);
@@ -66,7 +67,6 @@ export default function ValentineCard() {
     return () => clearTimeout(t);
   }, [musicOn]);
 
-  // Hearts (fondo)
   useEffect(() => {
     const root = heartsRef.current;
     if (!root) return;
@@ -111,6 +111,7 @@ export default function ValentineCard() {
     };
   }, [musicOn]);
 
+  // "No" se mueve dentro del div de botones
   const evade = () => {
     const area = buttonsAreaRef.current;
     const btn = noBtnRef.current;
@@ -341,7 +342,8 @@ export default function ValentineCard() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="mt-1 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 items-center">
+            {/* ✅ Input se queda, sin botón aplicar */}
+            <div className="mt-1">
               <input
                 className="w-full rounded-2xl border border-pink-200/60 bg-white/70 px-4 py-3 font-bold outline-none focus:ring-4 focus:ring-pink-200/40"
                 value={name}
@@ -349,19 +351,11 @@ export default function ValentineCard() {
                 placeholder="Pon su nombre aquí (ej: Luz)"
                 maxLength={24}
               />
-              <button
-                className="rounded-2xl border border-pink-200/60 bg-white/70 px-4 py-3 font-extrabold active:scale-[.98]"
-                type="button"
-                onClick={() => setName((x) => x.trim())}
-              >
-                Aplicar ✨
-              </button>
             </div>
 
             <div className="mt-auto pt-3 border-t border-dashed border-pink-200/70">
               <p className="text-sm sm:text-base font-bold opacity-90">{s.hint}</p>
 
-              {/* ✅ área de movimiento */}
               <div
                 ref={buttonsAreaRef}
                 className="relative mt-3 min-h-[120px] flex flex-col sm:flex-row gap-3"
@@ -442,9 +436,7 @@ export default function ValentineCard() {
 
       {/* Modal */}
       <div
-        className={`fixed inset-0 z-50 ${
-          showModal ? "grid" : "hidden"
-        } place-items-center bg-black/35 backdrop-blur-md p-3`}
+        className={`fixed inset-0 z-50 ${showModal ? "grid" : "hidden"} place-items-center bg-black/35 backdrop-blur-md p-3`}
         onClick={(e) => e.target === e.currentTarget && setShowModal(false)}
       >
         <motion.div
